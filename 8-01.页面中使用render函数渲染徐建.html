@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        var login = {
+            template: '<h1>这是登录组件</h1>'
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            // render和传统的使用component区别： 1.render 会替换el； 2.component只是替换部分内容；3.render只能放一个，component可以放多个
+            render: function(createElment) { //createElment是一个方法，调用它，能够把指定的组件渲染为html结构
+                return createElment(login); // 会替换el指定的元素， 删除之前的el
+            }
+        });
+    </script>
+</body>
+</html>

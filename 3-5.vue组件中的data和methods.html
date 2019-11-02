@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+    <template id="teml">
+        <div>
+            <input type="button" value="+1" @click="increment">
+            <h3>{{ count }}</h3>
+        </div>
+    </template>
+
+    <div id="app">
+        <mycomp></mycomp>
+        <hr>
+        <mycomp></mycomp>
+        <hr>
+        <mycomp></mycomp>
+    </div>
+    <script>
+        var dataObj = {count: 0}
+
+        Vue.component("mycomp", {
+            template: '#teml',
+            data: function() {//组件中的data必须是一个函数,而且必须有返回值，返回一个对象；
+            //为什么必须是一个函数：
+                return {
+                    count: 0
+                }
+                // return dataObj;//这时候会共享全局count;
+            },
+            methods: {
+                increment() {
+                    this.count++ ;
+                }
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {}
+        });
+    </script>
+</body>
+</html>

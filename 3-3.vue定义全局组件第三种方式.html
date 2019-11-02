@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <link rel="stylesheet" href="./lib/bootstrap.css">
+    <style>
+    
+    </style>
+</head>
+<body>
+    <template id="templ">
+        <div id="templ">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>111</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+    
+    <div id="app">
+        <mycomp></mycomp>
+    </div>
+    <script>
+        Vue.component("mycomp", {
+            template: '#templ',//在被控制的app外面定义id为template的元素
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {}
+        });
+    </script>
+</body>
+</html>

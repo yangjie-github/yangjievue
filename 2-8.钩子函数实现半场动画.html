@@ -1,0 +1,71 @@
+<!-- <transition
+        v-on:before-enter="beforeEnter"
+        v-on:enter="enter"
+        v-on:after-enter="afterEnter"
+        v-on:enter-cancelled="enterCancelled"
+
+        v-on:before-leave="beforeLeave"
+        v-on:leave="leave"
+        v-on:after-leave="afterLeave"
+        v-on:leave-cancelled="leaveCancelled">
+    -->
+    <!-- 使用前面的动画方式都无法实现半场动画， 即只有半个动画 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+        .bail {
+            width: 15px;
+            height: 15px;
+            border-radius: 50px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="加入购物车" @click="flag = !flag">
+        <!-- 使用transition把小球包裹起来 -->
+        <transition 
+            v-on:before-enter="beforeEnter"
+            v-on:enter="enter"
+            v-on:after-enter="afterEnter"
+            v-on:enter-cancelled="enterCancelled">
+                <div class="bail" v-show = "flag"></div>
+        </transition>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: false
+            },
+            //当只用 JavaScript 过渡的时候，在 enter 和 leave 中必须使用 done 进行回调。否则，它们将被同步调用，过渡会立即完成。 
+            methods: {
+                // el是原生的dom对象
+                beforeEnter(el) {//动画入场之前，动画尚未开始
+                    el.style.transform = "translate(0, 0)";//设置小球的起始位置
+                },
+                enter(el, done) {// 动画开始之后的样式，小球动画之后的结束状态
+                    el.offsetWidth;//这句话没有实际作用，但是要写，会刷新width可以改为letf,top
+                    el.style.transform = "translate(500px, 500px)";
+                    el.style.transition = "all 1s ease";
+                    done();// 若需要让小球动画完成后立即消失，需要调用done,这里的done其实是afterEnter函数，是它的引用；
+                },
+                afterEnter(el) {
+                    // 第一个功能是控制小球隐藏，第二个功能是直接跳过后半场动画
+                    this.flag = !this.flag;
+                },
+                enterCancelled(el) {
+
+                }
+            }
+        });
+    </script>
+</body>
+</html>

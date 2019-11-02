@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <!-- 注意resource依赖于vue, 导入要有顺序， resource向vue身上挂载了$http -->
+    <script src="./lib/vue-resources1.5.1.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="get请求" @click="getInfo">
+        <input type="button" value="post请求" @click="postInfo">
+        <input type="button" value="jsonp请求" @click="jsonpInfo">
+    </div>
+    <script>
+        // emulateJSON的作用
+        // 如果Web服务器无法处理编码为application/json的请求，你可以启用emulateJSON选项。启用该选项后，请求会以application/x-www-form-urlencoded作为MIME type，就像普通的HTML表单一样。
+        Vue.http.options.emulateJSON = true;
+
+        // 配置全局请求数据接口的根域名
+        Vue.http.options.root = 'http://jsonplaceholder.typicode.com/';
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                getInfo() {
+                    //发起get请求之后， 通过then获得返回参数
+                    this.$http.get('users').then(function(result) {
+                        //通过result.body拿回服务器返回的数据
+                        console.log(result.body);
+                    })
+                },
+                postInfo() {
+                    //当请求携带的参数是json格式的对象的时候，需要指定{emulateJSON: true}
+                    this.$http.post('users', {}, {emulateJSON: true}).then(function(result) {
+                        console.log(result.body);
+                    })
+                },
+                jsonpInfo() {
+                    this.$http.jsonp('users').then(function(result) {
+                        console.log(result.body);
+                    })
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+<!-- 除了vue-resource,还可以使用axios第三方包 -->

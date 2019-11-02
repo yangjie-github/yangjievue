@@ -1,0 +1,51 @@
+<!-- 组件的出现，是为了拆分vue实例的代码量，能够让我们以不同的组件，来划分不同的功能模块，我们需要什么样的功能，就调用对应的组件
+
+    组件化和模块化的不同：
+        模块化是从代码逻辑的角度进行划分的，组件化是从ui界面的角度进行划分的；
+        模块化划分可以根据功能保证只能单一；分层开发；
+        组件化划分可以方便ui的重用；
+    -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 使用组件, 在注册时候可以使用驼峰命名，在使用的时候必须使用 -； -->
+        <my-comp1></myComp1>
+        <my-comp2></myComp2>
+    </div>
+    <script>
+        // 第一种方式创建组件，三步
+        // 1.使用vue.extend创建全局组件
+        var comp = Vue.extend({
+            // 指定组件展示的html结构；
+            template: '<h3>方式一：这是通过vue.extends创建的组件</h3>'
+        })
+
+        // 2.使用vue.component注册全局组件, myComp组件名称
+        Vue.component("myComp1", comp);
+
+        // =================================================
+        // 将第一种方式合并
+        // 注意只能使用一个组件
+        Vue.component("myComp2", Vue.extend({
+            // 指定组件展示的html结构；
+            template: '<h3>方式二：这是通过vue.extends创建的组件</h3>'
+        }));
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {}
+        });
+    </script>
+</body>
+</html>

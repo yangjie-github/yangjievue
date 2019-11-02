@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+
+    <template id="templ">
+        <div>
+            <h1>这是子组件</h1>
+            <input type="button" name="" id="" value="这是子组件按钮，点击触发父组件事件" @click="myclick">
+        </div>
+    </template>
+
+    <div id="app">
+        <!-- 引用子组建, 可以简写为一个@-->
+        <comp2 v-on:func="show"></comp2>
+    </div>
+    <script>
+        // 定义一个字面量类型的组件模板对象
+        var comp = {
+            template: '#templ',
+            data() {
+                return {
+                    sonmsg: {
+                        name: '小头儿子', age: 18
+                    }
+                }
+            },
+            methods: {
+                myclick() {
+                    // this代表comp组件的一个实例, emit代表触发、调用的意思
+                    // this.$emit('func');
+                    // this.$emit('func', 123);//123表示第一个参数， 第二个参数在123后面加个，接着写参数
+                    this.$emit('func', this.sonmsg);
+                }
+            }
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                sondata: null
+            },
+            methods: {
+                show(data) {
+                    // console.log("调用了父组件的show方法" + "---" + data)
+                    console.log("调用了父组件的show方法" + "---" + data.name)
+                    //拿到最子组件的值
+                    this.sondata = data;
+                }
+            },
+            components: {
+                comp2: comp,
+            }
+        });
+    </script>
+</body>
+</html>

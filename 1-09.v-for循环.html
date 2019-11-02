@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p>{{ list[0] }}</p>
+        <p>{{ list[1] }}</p>
+        <p>{{ list[2] }}</p>
+        <p>{{ list[3] }}</p>
+
+        <p v-for="item in list">{{ item }}</p>
+
+        <!-- 添加顺序, i表示索引 -->
+        <!-- 遍历普通数组 -->
+        <p v-for="(item, i) in list">{{i}} ->{{ item }}</p>
+
+        <!-- 遍历对象数组 -->
+        <p v-for="(user, i) in list2">{{ i }} -> {{ user.id }} -> {{user.name}}</p>
+
+        <!-- 遍历对象属性， 以键值对遍历 -->
+        <p v-for="(value, key, index) in user">{{ value }} -> {{ key }} -> {{ index }}</p>
+
+        <!-- 迭代数字循环， count从1开始 -->
+        <p v-for="count in 10">这是第{{ count }}此循环</p>
+
+        <!-- key属性的使用, 在使用组件时候必须添加key -->
+        <div>
+            <label>id:<input type="text" v-model="id"></label>
+        </div>
+        <div>
+            <label>name:<input type="text" v-model="name"></label>
+        </div>
+        <input type="button" value="添加" @click="add">
+        <!-- 在前面添加，若勾中checkbox3,添加一个，则会出现勾中错乱，这是因为没有使用key -->
+        <!-- <p v-for="item in list2">
+            <input type="checkbox"> {{ item.id }} -> {{item.name}}
+        </p> -->
+        <!-- 添加key可以防止上面错误，key可以保证数据的唯一性 key属性只能是字符串或number, key在使用时必须使用v-bind:key形式指定key的值 -->
+        <p v-for="item in list2" :key="item.id">
+            <input type="checkbox"> {{ item.id }} -> {{item.name}}
+        </p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: '',
+                name: '',
+                list: [1, 2, 3, 4],
+                list2: [
+                    {id: 1, name: 'zhangsan'},
+                    {id: 2, name: 'lisi'},
+                    {id: 3, name: 'wangwu'}
+                ],
+                user: {
+                    id: 1, 
+                    name: 'yangjie',
+                    gender: '男'
+                }
+            },
+            methods: {
+                add() {
+                    // this.list2.push({id: this.id, name: this.name});//使用这种添加没问题
+                    this.list2.unshift({id: this.id, name: this.name});//在前面添加，若勾中checkbox3,添加一个，则会出现勾中错乱，这是因为没有使用key, 使用key可以给数据增加唯一性
+                }
+            }
+        });
+    </script>
+</body>
+</html>

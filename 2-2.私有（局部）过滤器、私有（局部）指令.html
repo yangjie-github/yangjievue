@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h3 v-color="'red'" v-fontsize="'30px'">{{ dateStr | dateFmt }}</h3>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                dateStr: new Date()
+            },
+            methods: {},
+            filters: { //私有过滤器，也是一个对象， 过滤器有两个对象，名称和吹对象
+                        //若全局和私有的都存在容一个过滤器，则采用就近原则，优先调用私有过滤器
+                dateFmt: function(dateStr, pattern='yyyy-MM-dd') {
+                    var dt = new Date(dateStr); //根据给定的字符创建得到特定的时间
+                    var y = dt.getFullYear();
+                    var m = (dt.getMonth() + 1).toString().padStart(2, '0');
+                    var d = (dt.getDate()).toString().padStart(2, '0');
+                    // return y + "-" + m + '-' + d;
+
+                    if (pattern && pattern.toLowerCase() == 'yyyy-mm-dd') {
+                        return `${y}-${m}-${d}`;
+                    } else {
+                        var hh = (dt.getHours()).toString().padStart(2, '0');
+                        var mm = (dt.getMinutes()).toString().padStart(2, '0');
+                        var ss = (dt.getSeconds()).toString().padStart(2, '0');
+                        return `${y}-${m}-${d} : ${hh}-${mm}-${ss}`;
+                    }
+                }
+            },
+            directives: {
+                "color": {
+                    bind: function(el, bindind) { 
+                        //和样式相关的操作， 可以在bind中执行
+                        //样式只要通过指令绑定给了元素，不管元素有没有插入到dom中，这个元素都有了这个样式
+                        el.style.color = bindind.value;
+                    },
+                    inserted: function(el) {
+                    
+                    },
+                    updated: function(el) {
+
+                    }
+                },
+                'fontsize': function(el, bindind) {// 自定义指令简写 ， 等同于在bind和update中同时写了一份
+                    //和样式相关的操作， 可以在bind中执行
+                    //样式只要通过指令绑定给了元素，不管元素有没有插入到dom中，这个元素都有了这个样式
+                    el.style.fontSize = parseInt(bindind.value) + "px";
+                }
+            }
+        });
+    </script>
+</body>
+</html>

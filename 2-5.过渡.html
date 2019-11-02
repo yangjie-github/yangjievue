@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+        /* 普通过渡 */
+        .fade1-enter-active, .fade1-leave-active {
+            transition: opacity 1.5s;
+        }
+        .fade1-enter, .fade1-leave-to {
+            opacity: 0;
+        }
+
+        /* css过渡 */
+        /* 可以设置不同的进入和离开动画 */
+        /* 设置持续时间和动画函数 */
+        .fade2-enter-active {
+            transition: all .3s ease;
+        }
+        .fade2-leave-active {
+            transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+        .fade2-enter, .fade2-leave-to {
+            /* 定义偏移量; X表示偏移位置， 10px表示向正方向偏移 */
+            transform: translateX(10px); 
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="flag = !flag">普通过渡</button>
+        <transition name="fade1">
+            <p v-if="flag">我是p标签</p>
+        </transition>
+
+        <button @click="show = !show">css过渡</button>
+        <transition name="fade2">
+            <p v-if="show">hello</p>
+        </transition>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: false,
+                show: false
+            },
+            methods: {}
+        });
+    </script>
+</body>
+</html>

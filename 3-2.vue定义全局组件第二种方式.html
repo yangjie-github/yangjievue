@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <mycomp></mycomp>
+    </div>
+    <script>
+        Vue.component("mycomp", {
+            // template: '<h3>组件方式二</h3><span>123</span>'  //这时候会报错，不能有两个并排的根元素， 组件只能有且只有一个根元素
+            template: '<div><h3>组件方式二</h3><span>123</span></div>',
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {}
+        });
+    </script>
+</body>
+</html>

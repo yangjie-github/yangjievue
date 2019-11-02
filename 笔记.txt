@@ -1,0 +1,67 @@
+Angular
+
+	09年诞生
+	原来是个人开发的，后来被谷歌收购了
+
+React
+
+	诞生于facebook公司内部
+	facebook不满足于市场上所有js框架，所以自己搞了一个。
+
+vue.js
+
+	尤雨溪（中国江苏无锡人）----创造
+	12年左右诞生
+	文档都中文的，对英文要求不高，非常友好
+
+====================================================
+
+1. 使用浏览器打开，安装View In Browser插件
+2. 使用http协议打开，安装Live Server插件, 安装好了之后底下有Go Live
+3. 调节浏览器网速：浏览器里面的NetWork里面有个Online,可以设置网速
+4. 自定义模板，在首选项中选代码片段，然后选择html.json
+    {
+	"h5 sample": {
+		"prefix": "html",
+		"body": [
+			"<!DOCTYPE html>",
+				"<html lang=\"zh-CN\">",
+				"<head>",
+				"    <meta charset=\"UTF-8\">",
+				"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+				"    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">",
+				"    <title>Document</title>",
+				"    <script src=\"./lib/Vue.js v2.6.10.js\"></script>",
+				"    <style>",
+				"    ",
+				"    </style>",
+				"</head>",
+				"<body>",
+				"    <div id=\"app\">",
+				"    </div>",
+				"    <script>",
+				"        var vm = new Vue({",
+				"            el: '#app',",
+				"            data: {},",
+				"            methods: {}",
+				"        });",
+				"    </script>",
+				"</body>",
+				"</html>"
+            ],
+            "description": "The full sample code - html5."
+	    }
+    }
+    代码转字符串工具地址：https://www.html.cn/tool/html2js/
+5. 全屏快捷键f11    
+6. vue 2.0 以后不能再body上加上id= "app"；
+7. vue.js的devtools安装
+	1)github下载地址：https://github.com/vuejs/vue-devtools
+	2)下载好后进入vue-devtools-master工程  执行npm install 
+	3)修改vue-devtools\shells\chrome\manifest.json 中的persistent为true
+	4)执行npm run build.
+	5)打开谷歌浏览器设置--->扩展程序--》勾选开发者模式---》添加工程中的shells-->chrome的内容或者直接拖动shells-->chrome，至此恭喜已经安装成功！！！
+8.设置go live打开的浏览器为谷歌，修改系统的默认打开浏览器即可；
+9.下载Bootstrap 3 Snippets, 可以使用创建html快捷键；
+10.vue resource github 地址： https://github.com/pagekit/vue-resource
+11.菜单栏显示文件夹图标：安装插件vscode-icons

@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <!-- 导入之后，地址栏自动会多了一个hash路由， 在地址栏后面多了一个#/ -->
+    <script src="./lib/vue-router.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+
+        <!-- 点击链接，改变url地址，触发路由监听， 进行路由规则匹配， 显示匹配成功的对应组件 -->
+        <!-- <a href="#/login">登录</a>
+        <a href="#/register">注册</a> -->
+
+        <!-- vuerouter提供的标签，可代替上面的a链接写法, 默认渲染出来的结果是a标签， tag修改为渲染的 -->
+        <router-link to="/login" tag="span">登录</router-link>
+        <router-link to="/register">注册</router-link>
+
+        <!-- vue-router提供的元素， 用来当做占位符/容器， 路由规则匹配到的组件就会展示到这个标签里面去。 -->
+        <router-view></router-view>
+    </div>
+    <script>
+
+        //创建组件模板对象
+        var login = {
+            template: '<h1>登录组件</h1>'
+        }
+        var register = {
+            template: '<h1>注册组件</h1>'
+        }
+
+        //创建一个路由对象，当导入router包之后， 在window全局对象中就有了一个陆游的构造函数，叫做VueRouter;
+        // new时候可以传递一个配置对象
+        var routerObj = new VueRouter({
+            //routes表示路由匹配规则；每个路由规则有两个必须属性，属性一path表示监听那个路由连接地址，
+            //                                                  属性二是component，表示如果路由是前面匹配的path,则展示component对应的组件
+            routes: [
+                // {path: '/', component: login},//指定默认根路径展示组件，这时候地址后面没有跟login显示， 这种不推荐，使用下面的重定向更好
+                {path: '/', redirect: '/login'}, //这里的redirect和node中的redirect是两码事；这里是客户端修改hash值
+                {path: '/login', component: login}, //login是组件模板对象，而不是组件模板的引用名称
+                {path: '/register', component: register}
+            ] 
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            router: routerObj,
+            watch: {
+                '$route.path': function(newValue, oldValue) {
+                    if (newValue == '/login') {
+                        console.log("欢迎进入登录页面");
+                    } else if (newValue == '/register') {
+                        console.log("欢迎进入注册页面");
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

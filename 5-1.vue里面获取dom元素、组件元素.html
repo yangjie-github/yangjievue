@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="获取元素" @click="getElement">
+        <!-- <h3 id="myH3">哈哈，今天天气不错</h3> -->
+
+        <!-- ref引用dom元素 -->
+        <h3 ref="myH3">哈哈，今天天气不错</h3>
+        <hr>
+
+        <!-- ref引用组件 -->
+        <login ref="login"></login>
+    </div>
+    <script>
+        var login = {
+            template: '<h3>登录组件</h3>',
+            data() {
+                return {
+                    msg: 'son msg'
+                }
+            },
+            methods: {
+                show() {
+                    console.log('调用了子组件的方法');
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+                getElement() {
+                    // console.log(document.getElementById("myH3").innerHTML);
+                    console.log(this.$refs.myH3.innerText);
+                    // 可以调用子组件的数据和方法
+                    console.log(this.$refs.login.msg);
+                    this.$refs.login.show();
+                }
+            },
+            components: {
+                login: login
+            }
+        });
+    </script>
+</body>
+</html>

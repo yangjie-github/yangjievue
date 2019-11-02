@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+    <template id="teml">
+        <h3>woshi h3</h3>
+    </template>
+    <div id="app">
+        <templ></templ>
+        <tem2></tem2>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            components: {
+                templ: {
+                    template: '<h1>woshi h1</h1>'
+                },
+                tem2: {
+                    template: '#teml'
+                }   
+            }
+        });
+    </script>
+</body>
+</html>

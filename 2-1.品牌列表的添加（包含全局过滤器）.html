@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <link rel="stylesheet" href="./lib/bootstrap.css">
+    <style>
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label for="">id: <input type="text" class="form-control" v-model="id"></label>
+                <!-- @keyup.enter 键盘抬起， 按下enter键后触发事件，vue提供了相应的事件 -->
+                <!-- 查找键盘的码值，也可以触发 ，例如@keyup.113， 可以触发f2-->
+                <!-- 可以自定义键盘码 -->
+                <label for="">name: <input type="text" class="form-control" v-model="name" @keyup.f7="add()"></label>
+
+                <!-- 绑定方法时候加了小括号，可以给函数传参 -->
+                <input type="button" value="添加" class="btn btn-primary" @click="add()">
+
+                <!-- 自定义指令v-focus/v-color，是搜索框页面一加载获取焦点 -->
+                <label for="">搜索名称关键字: <input type="text" class="form-control" v-model="keyWords" v-focus v-color="'blue'"></label>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>CTIME</th>
+                    <th>OPERATE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 实现显示list -->
+                <!-- <tr v-for="item in list" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.Ctime }}</td>
+                    <td><a href="" @click.prevent="del(item.id)">删除</a></td>
+                </tr> -->
+
+                <!-- 实现查询 -->
+                <tr v-for="item in search(keyWords)" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.Ctime | dateFmt('yyyy-MM') }}</td>
+                    <td><a href="" @click.prevent="del(item.id)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        =========================
+
+        <!-- 可以传参，可以传多个参数，可以多次调用 -->
+        <h2>{{ msg | msgFmt }}</h2>
+        <h2>{{ msg | msgFmt2('疯狂') }}</h2>
+    </div>
+    <script>
+        // 全局过滤器，所有的vm实例共享
+        //注意放在new Vue的前面 
+        // 过滤器调用时候的格式： {{ name | ope }} 调用name时候，先调用ope（过滤器名称）过滤 
+        // 注意， 过滤器只能在{{}} 和 v-bind中使用 
+        // 定义全局过滤器 Vue.filter('name', function() {})， 第一个参数被定死，就传递过来需要被处理的数据
+        Vue.filter('msgFmt', function(param) {
+            return param.replace(/单纯/g, '邪恶');
+        })
+        Vue.filter('msgFmt2', function(param, arg) {
+            return param.replace(/单纯/g, arg);
+        })
+        Vue.filter('dateFmt', function(dateStr, pattern='yyyy-MM-dd') { //pattern='yyyy-MM-dd'形参定义默认值
+            var dt = new Date(dateStr); //根据给定的字符创建得到特定的时间
+
+            var y = dt.getFullYear();
+            var m = dt.getMonth() + 1;
+            var d = dt.getDate();
+            // return y + "-" + m + '-' + d;
+
+            if (pattern && pattern.toLowerCase() == 'yyyy-mm-dd') {
+                return `${y}-${m}-${d}`;
+            } else {
+                var hh = dt.getHours();
+                var mm = dt.getMinutes();
+                var ss = dt.getSeconds();
+                return `${y}-${m}-${d} : ${hh}-${mm}-${ss}`;
+            }
+        })
+
+        // 定义键盘码
+        Vue.config.keyCodes.f7 = 118;
+
+        //使用Vue.directives指令定义全局的指令
+        //其中参数一是指令的名称，不需要加v-前缀，在调用的时候需要添加v-, 参数二是一个对象，这个对象上，有一些指令相关的钩子函数
+        Vue.directive("focus", {
+            //每个函数中，第一个参数永远是el,表示被绑定了指令的那个元素，是一个原生的js对象（dom对象）
+            bind: function(el) { // 每当指令绑定到元素上的时候会立即执行这个bind函数，只执行一次
+                //当元素刚并定了指令的时候，还没有插入到dom中去，调用focus没有用
+                // el.focus();
+            },
+            inserted: function(el) { // 每当元素插入到dom中的时候会执行，只触发一次
+                //和js行为相关的操作，最好在inserted中定义
+                el.focus();
+            },
+            updated: function(el) { // 当组件vnode更新的时候会执行，可能会触发多次
+
+            }
+        })
+
+        Vue.directive("color", {
+            bind: function(el, bindind) { 
+                //和样式相关的操作， 可以在bind中执行
+                //样式只要通过指令绑定给了元素，不管元素有没有插入到dom中，这个元素都有了这个样式
+                el.style.color = bindind.value;
+            },
+            inserted: function(el) {
+                
+            },
+            updated: function(el) {
+
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                    {id: 1, name: '奔驰', Ctime: new Date()},
+                    {id: 2, name: '宝马', Ctime: new Date()},
+                ],
+                id: '',
+                name: '',
+                keyWords: '',
+                msg: '我是一个单纯的少年'
+            },
+            methods: {
+                add() {
+                    var car = {id: this.id, name: this.name, Ctime: new Date()};
+                    this.list.push(car);
+                    this.id = this.name = '';//表达式会从右向左计算
+                },
+                del(id) {//根据id删除数据
+                    // this.list.some((item, i) => {
+                    //     if (item.id == id) {
+                    //         this.list.splice(i, 1); //删除操作
+                    //         return true; //return true 会终止循环
+                    //     }
+                    // })
+
+                    var index = this.list.findIndex(item => { //快速查找到索引
+                        if(item.id == id) {
+                            return true;
+                        }
+                    })
+
+                    this.list.splice(index, 1);
+                },
+                search(keyWords) {
+                    // var newList = [];
+                    // this.list.forEach(item => {
+                    //     if (item.name.indexOf(keyWords) != -1) {
+                    //         newList.push(item);
+                    //     }
+                    // });
+                    // return newList;
+
+                    return this.list.filter(item => {
+                        if (item.name.includes(keyWords)) {
+                            return item;
+                        }
+                    })
+                    return newList;
+                }
+            }
+        });
+    </script>
+</body>
+
+
+</html>

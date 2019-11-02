@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+        .inner {
+            height: 150px;
+            background-color: darkcyan;
+        }
+
+        .outer {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- @click.stop事件阻止事件，阻止冒泡 -->
+        <!-- 默认是冒泡事件，先触发自己点击事件，再触发父元素的点击事件 -->
+        <div class="inner" @click="divHandler">
+            <input type="button" value="戳他" @click.stop="inputHandler">
+        </div>
+
+        <!-- @click.prevent阻止默认行为 -->
+        <a href="http://www.baidu.com" @click.prevent="aclick">有问题，去百度</a>
+
+        <!-- @click.capture事件捕获，从外到里执行事件 -->
+        <div class="inner" @click.capture="divHandler">
+            <input type="button" value="戳他" @click="inputHandler">
+        </div>
+
+        <!-- @click.self只有点击当前元素时候才会触发事件 -->
+        <div class="inner" @click.self="divHandler">
+            <input type="button" value="戳他" @click="inputHandler">
+        </div>
+
+        <!-- @click.prevent.once只触发一次，并且点击后，默认行为被恢复 -->
+        <a href="http://www.baidu.com" @click.prevent.once="aclick">有问题，去百度</a>
+
+        <!-- @click.stop和@click.self区别， self只阻止了自己的冒泡，不阻止父元素的冒泡； stop阻止了所有的冒泡 -->
+        <div @click="outHandler" class="outer">
+            <div class="inner" @click="divHandler">
+                <input type="button" value="戳他" @click.stop="inputHandler">
+            </div>
+        </div>
+        <div @click="outHandler" class="outer">
+            <div class="inner" @click.self="divHandler">
+                <input type="button" value="戳他" @click="inputHandler">
+            </div>
+        </div>
+        
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                
+            },
+            methods: {
+                divHandler() {
+                    console.log("divHandler点击事件");
+                },
+                outHandler() {
+                    console.log("outHandler点击事件");   
+                },
+                inputHandler() {
+                    console.log("input点击事件");
+                },
+                aclick() {
+                    console.log("a标签被点击了");
+                }
+            }
+        })
+
+    
+    </script>
+</body>
+</html>

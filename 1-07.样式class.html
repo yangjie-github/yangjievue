@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .thin {
+            font-weight: 200;
+        }
+
+        /* 倾斜的 */
+        .italic {
+            font-style: italic;
+        }
+
+        .active {
+            letter-spacing: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1 class="red thin">很大的h1</h1>
+
+        <!-- 绑定class属性, 类名必须用‘’包起来,可以传递数组 -->
+        <h1 :class="['thin', 'red']">很大的h1</h1>
+
+        <!-- 在数组中使用三元表达式 -->
+        <h1 :class="['thin', 'red', flag ? 'active' : '']">很大的h1</h1>
+
+        <!-- {'active' : flag}是一个对象，若flag为真，则active生效 -->
+        <h1 :class="['thin', 'red', {'active' : flag}]">很大的h1</h1>
+
+        <!-- red: true red是类名， 值是标识符；属性可以带‘’，也可以不带 -->
+        <h1 :class="{'red': true, thin: true, active: true}">很大的h2</h1>
+
+        <h1 :class="classObj">很大的h3</h1>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: true,
+                classObj: {'red': true, thin: true, active: true},
+            },
+            methods: {}
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <link rel="stylesheet" href="./lib/animate-3.7.0.css">
+    <!-- 入场使用bounceIn 离场使用bounceOut -->
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="flag = !flag">普通过渡</button>
+        <!-- animated可以不写 -->
+        <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+            <p v-if="flag">我是p标签</p>
+        </transition>
+
+        <!-- duration设置统一设置动画时间 -->
+        <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="5000">
+            <p v-if="flag">我是p标签</p>
+        </transition>
+
+        <!-- duration分别设置入场和离场时间 -->
+        <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="{ enter: 2000, leave: 4000}">
+            <p v-if="flag">我是p标签</p>
+        </transition>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: false
+            },
+            methods: {}
+        });
+    </script>
+</body>
+</html>

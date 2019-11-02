@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+        li {
+            border: 3px dashed #999;
+            margin: 5px;
+            line-height: 35px;
+            padding: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .v-enter, .v-leave-to {
+            opacity: 0;
+            transform: translateY(80px); 
+        }
+        .v-enter-active, .v-leave-active {
+            transition: all 1s ease;
+        }
+
+        /* 离开时候的动画 */
+        .v-move {
+            transition: all 1s ease;
+        } 
+        .v-leave-active {
+            /* 会释放宽度，需要给li设置宽度 */
+            position: absolute;
+        }
+
+        li:hover {
+            background-color: pink;
+            transition: all 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <label>
+                <div>
+                    id:
+                    <input type="text" v-model="id">
+                    name:
+                    <input type="text" v-model="name">
+                    <input type="button" @click="add" value="添加">
+                </div>
+            </label>
+        </div>
+        <ul>
+            <!-- 在实现列表元素过渡，如果是通过v-for渲染的，不能使用transition包裹，需要使用transitionGroup包裹, 必须设置key属性 -->
+            <!-- appear实现入场时候的效果，页面刚展示出来时候的效果， appear默认给li上面包了一层span, tag可以设置为ul包裹 -->
+            <transition-group tag="ul" appear>
+                <li v-for="(item, i) in list" :key="item.id" @click="del(i)">
+                    {{ item.id }} --- {{ item.name }}
+                </li>
+            </transition-group>
+    
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: '',
+                name: '',
+                list: [
+                    {id: 1, name: 'zhangsan'},
+                    {id: 2, name: 'lisi'},
+                    {id: 3, name: 'wangwu'}
+                ],
+            },
+            methods: {
+                add() {
+                    this.list.push({id: this.id, name: this.name});
+                    this.id = this.name = '';
+                },
+                del(i) {
+                    this.list.splice(i, 1);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
