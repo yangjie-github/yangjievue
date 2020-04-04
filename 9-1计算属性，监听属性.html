@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/Vue.js v2.6.10.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        数学：<input type="text" v-model="math">
+        英语：<input type="text" v-model="en">
+        computed总分：{{ sum }}
+        watch总分：{{ add }}
+    </div>
+    <script>
+        var vm = new Vue({
+            data: {
+                math: 80,
+                en: 90,
+                add: 0
+            },
+            el: '#app',
+            methods: {},
+            computed: {
+                sum: function () {
+                    return this.math + this.en
+                }
+            },
+            watch: {
+                math: function () {
+                    this.add = this.math + this.en
+                }
+            }
+        });
+    </script>
+    <!-- 
+         1. 计算属性computed在使用时，一定要注意，函数里面的变量都会被监听，只要里面的某一个值变动，便会将整个函数执行一遍。 而 watch 只是监听某一个值，若是监听的值里面也有很多变量，也会全部监听
+         2. 计算后的属性可不在 data 中定义，如果定义会报错，因为对应的computed作为计算属性定义并返回对应的结果给这个变量,变量不可被重复定义和赋值。 而 watch 监听 data 中定义的变量变化
+         computed特性
+            1.是计算值，
+            2.应用：就是简化tempalte里面{{}}计算和处理props或$emit的传值
+            3.具有缓存性，页面重新渲染值不变化,计算属性会立即返回之前的计算结果，而不必再次执行函数
+        watch特性
+            1.是观察的动作，
+            2.应用：监听props，$emit或本组件的值执行异步操作
+            3.无缓存性，页面重新渲染时值不变化也会执行
+    -->
+</body>
+
+</html>
