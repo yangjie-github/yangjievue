@@ -18,13 +18,20 @@
         英语：<input type="text" v-model="en">
         computed总分：{{ sum }}
         watch总分：{{ add }}
+        <br>
+        用户名：<input type="text" v-model="user.name">
+        年龄：<input type="text" v-model="user.age">
     </div>
     <script>
         var vm = new Vue({
             data: {
                 math: 80,
                 en: 90,
-                add: 0
+                add: 0,
+                user: {
+                    name: 11,
+                    age: 22
+                }
             },
             el: '#app',
             methods: {},
@@ -33,9 +40,22 @@
                     return this.math + this.en
                 }
             },
-            watch: {
+            watch: { //可以监听data中的属性， 也可以监听computer的属性
                 math: function () {
                     this.add = this.math + this.en
+                },
+                sum: function () {
+                    console.log('我在监听sum')
+                },
+                user: {
+                    handler(newValue, oldValue) {
+                        console.log('new:', newValue)
+                        console.log('old', oldValue)
+                        //newValueoldValue值一样，而是在修改（不是替换）对象或数组时，旧值将与新值相同，因为它们索引同一个对象/数组。Vue 不会保留修改之前值的副本。
+                    },
+                    deep: true,
+                    // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                    immediate: true
                 }
             }
         });
