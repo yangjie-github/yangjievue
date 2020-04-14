@@ -13,7 +13,7 @@
 <body>
     <div id="app">
         <!-- 父组件可以在引用子组件的时候通过属性绑定（v-bind:）的形式把父组件的数据传递给子组件 -->
-        <com1 v-bind:parentmessage="message"></com1>
+        <com1 v-bind:parentmessage="message" ref="childCom"></com1>
     </div>
     <script>
         var vm = new Vue({
@@ -22,6 +22,11 @@
                 message: '123 父组件的数据'
             },
             methods: {},
+            mounted() {
+                //获取子组件的top
+                this.$refs.childCom.$el.getBoundingClientRect().top;
+                console.log(this.$refs.childCom.$el.getBoundingClientRect().top);
+            },
             components: {
                 com1: {
                     //data 数据是子组件私有的数据， 比如ajax请求的数据都可以放在data里面
